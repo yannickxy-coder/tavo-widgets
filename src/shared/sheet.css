@@ -1,0 +1,41 @@
+/* Bottom Sheet v3 · Styles · Scrim wird in Webflow gebaut ([data-sheet-scrim], Klasse .is-open)
+   Quelle: von Yay geliefert am 19.09.2026, ersetzt v2 (performance) */
+
+  :root {
+    --sheet-in:      cubic-bezier(.32,.72,0,1);
+    --sheet-in-dur:  400ms;
+    --sheet-out:     cubic-bezier(.4,0,.86,.6);
+    --sheet-out-dur: 340ms;
+  }
+
+  [data-sheet][data-sheet-mode="sheet"] {
+    position: fixed; left: 0; right: 0; bottom: 0;
+    z-index: 9992;
+    max-height: 99dvh;
+    transform: translate3d(0,100%,0);
+    visibility: hidden;
+    touch-action: pan-y;
+    cursor: default;
+  }
+  [data-sheet][data-sheet-mode="sheet"][data-sheet-shown] { visibility: visible; }
+
+  [data-sheet][data-sheet-mode="inline"] {
+    position: static; max-height: none; transform: none; visibility: visible;
+  }
+  [data-sheet][data-sheet-mode="inline"] [data-sheet-handle] { display: none; }
+
+  [data-sheet-scroller] { overflow-y: auto; overscroll-behavior: contain; min-height: 0; }
+
+  [data-sheet-handle] { touch-action: none; cursor: grab; user-select: none; transition: opacity .2s ease; }
+  html[data-sheet-grabbing], html[data-sheet-grabbing] * {
+    user-select: none !important; -webkit-user-select: none !important; cursor: grabbing !important;
+  }
+  [data-sheet][data-sheet-dragging] [data-sheet-handle] { opacity: .55; }
+
+  [data-sheet-header] { position: sticky; top: 0; z-index: 2; }
+
+  html[data-sheet-locked], html[data-sheet-locked] body { overflow: hidden; }
+
+  @media (prefers-reduced-motion: reduce) {
+    [data-sheet] { transition-duration: .01ms !important; }
+  }

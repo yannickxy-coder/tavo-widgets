@@ -1,0 +1,13 @@
+{
+  "name": "tavo-widgets",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "tavo Reservieren-Widget · ausgeliefert via jsDelivr",
+  "scripts": {
+    "build": "node build.mjs"
+  },
+  "devDependencies": {
+    "esbuild": "^0.25.0"
+  }
+}

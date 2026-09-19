@@ -1,0 +1,166 @@
+/* SheetNav · Styles
+   Quelle (Webflow, Stand 2026-09-19): Embed .sheet-nav-js */
+
+  :root {
+    --sheetnav-dur: 340ms;
+    --sheetnav-ease: cubic-bezier(0.32, 0.72, 0, 1);
+  }
+
+  /* ============================================================
+     STAGE
+  ============================================================ */
+
+  [data-sheetnav] {
+    position: relative;
+    overflow: hidden;
+  }
+
+  [data-sheetnav-root],
+  [data-sheetnav-page] {
+    transition:
+      transform var(--sheetnav-dur) var(--sheetnav-ease),
+      opacity var(--sheetnav-dur) var(--sheetnav-ease);
+  }
+
+  /* ============================================================
+     PAGES
+  ============================================================ */
+
+  [data-sheetnav-page] {
+    position: absolute;
+    inset: 0;
+
+    overflow-y: auto;
+    overscroll-behavior: contain;
+
+    min-height: 0;
+
+    transform: translateX(100%);
+    visibility: hidden;
+
+    z-index: 1;
+  }
+
+  [data-sheetnav-page][data-sheetnav-active] {
+    transform: translateX(0);
+    visibility: visible;
+  }
+
+  [data-sheetnav][data-sheetnav-animating] [data-sheetnav-page][data-sheetnav-active] {
+    will-change: transform;
+  }
+
+  /* ============================================================
+     MESSEN
+  ============================================================ */
+
+  [data-sheetnav-page][data-sheetnav-measuring] {
+    position: static;
+    inset: auto;
+
+    visibility: visible;
+    opacity: 0;
+
+    transition: none;
+    transform: none;
+  }
+
+  /* ============================================================
+     HEIGHT OFF
+  ============================================================ */
+
+  [data-sheetnav][data-sheetnav-height='off']:has([data-sheetnav-page][data-sheetnav-active]) {
+    flex: 1 1 auto;
+    height: auto;
+    min-height: 0;
+  }
+
+  [data-sheet]:has([data-sheetnav-height='off'] [data-sheetnav-page][data-sheetnav-active]) {
+    height: 99dvh;
+  }
+
+  /* ============================================================
+     FIXED
+  ============================================================ */
+
+  [data-sheetnav-fixed] {
+    position: relative;
+    z-index: 50;
+  }
+
+  /* ============================================================
+     MORPH
+  ============================================================ */
+
+  [data-sheetnav-morph] {
+    position: relative;
+  }
+
+  [data-sheetnav-morph],
+  [data-sheetnav-pulse-inner] {
+    transform-origin: center center;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  [data-sheetnav-morph-idle],
+  [data-sheetnav-morph-active] {
+    transition:
+      opacity var(--sheetnav-morph-dur, 220ms) var(--sheetnav-ease),
+      transform var(--sheetnav-morph-dur, 220ms) var(--sheetnav-ease);
+  }
+
+  [data-sheetnav-morph-active] {
+    position: absolute;
+    inset: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Idle */
+
+  [data-sheetnav-morph] [data-sheetnav-morph-active] {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+
+    transform: scale(0.7) rotate(-25deg);
+  }
+
+  /* Active */
+
+  [data-sheetnav-morph][data-sheetnav-morph-on] [data-sheetnav-morph-active] {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+
+    transform: scale(1) rotate(0deg);
+  }
+
+  [data-sheetnav-morph][data-sheetnav-morph-on] [data-sheetnav-morph-idle] {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+
+    transform: scale(0.7) rotate(25deg);
+  }
+
+  /* ============================================================
+     ANIMATION LOCK
+  ============================================================ */
+
+  [data-sheetnav][data-sheetnav-animating] {
+    pointer-events: none;
+  }
+
+  /* ============================================================
+     REDUCED MOTION
+  ============================================================ */
+
+  @media (prefers-reduced-motion: reduce) {
+    [data-sheetnav-root],
+    [data-sheetnav-page] {
+      transition-duration: 0.01ms !important;
+    }
+  }

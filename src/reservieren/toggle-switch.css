@@ -1,0 +1,44 @@
+/* Toggle Switch · Styles
+   Quelle (Webflow, Stand 2026-09-19): Page Settings Head */
+
+  [data-toggle-init] {
+    position: relative;
+    display: flex;
+    gap: 2px;
+    padding: 4px;
+    background: #EFEFEF;
+    border-radius: 999px;
+    isolation: isolate;
+  }
+  [data-toggle-init]::before {
+    content: '';
+    position: absolute;
+    top: 4px;
+    bottom: 4px;
+    left: 4px;
+    width: calc((100% - 8px) / var(--toggle-count, 1));
+    transform: translateX(calc(var(--toggle-active, 0) * 100%));
+    background: #FFFFFF;
+    border-radius: 999px;
+    box-shadow: 0 1px 3px rgba(17,17,17,.12);
+    transition: transform .28s cubic-bezier(.4,0,.2,1);
+    z-index: 0;
+    pointer-events: none;
+  }
+  [data-toggle-btn] {
+    position: relative;
+    z-index: 1;
+    flex: 1 1 0;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    padding: 10px 16px;
+    font: inherit;
+    color: #6B6B6B;
+    transition: color .2s ease;
+    text-align: center;
+    white-space: nowrap;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    [data-toggle-init]::before { transition-duration: .01ms; }
+  }

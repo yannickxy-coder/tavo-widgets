@@ -1,0 +1,32 @@
+/* Lade-Punkte im Button
+   Quelle (Webflow, Stand 2026-09-19): Embed ohne Klasse (#10) */
+
+  @keyframes tavoBounce {
+    0%, 80%, 100% { transform: translateY(0); opacity: .5; }
+    40% { transform: translateY(-4px); opacity: 1; }
+  }
+  [data-tavo-loading-dots] > div:nth-child(1) { animation-delay: 0s; }
+  [data-tavo-loading-dots] > div:nth-child(2) { animation-delay: .15s; }
+  [data-tavo-loading-dots] > div:nth-child(3) { animation-delay: .3s; }
+  [data-tavo-step-next][data-tavo-busy] { pointer-events: none; }
+  [data-tavo-step-next][data-tavo-busy] > *:not([data-tavo-loading-dots]) { display: none; }
+  [data-tavo-step-next][data-tavo-busy] [data-tavo-loading-dots] { display: flex; }
+
+  .tavo-field-error {
+    color: #C41f45;
+    font-size: 12px;
+    line-height: 16px;
+    margin-top: 6px;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    [data-tavo-loading-dots] > div { animation-duration: .01ms; }
+  }
+
+  .tavo-success-active [data-sheetnav-back] {
+    display: none !important;
+  }
+
+  [data-tavo-area-id].is-disabled {
+    pointer-events: none;
+    opacity: .4;
+  }

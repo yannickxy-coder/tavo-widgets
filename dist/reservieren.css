@@ -1,0 +1,465 @@
+/*! tavo-widgets/reservieren v1.0.0 · yaaay.studio */
+/* ---- reservieren/toggle-switch.css ---- */
+/* Toggle Switch · Styles
+   Quelle (Webflow, Stand 2026-09-19): Page Settings Head */
+
+  [data-toggle-init] {
+    position: relative;
+    display: flex;
+    gap: 2px;
+    padding: 4px;
+    background: #EFEFEF;
+    border-radius: 999px;
+    isolation: isolate;
+  }
+  [data-toggle-init]::before {
+    content: '';
+    position: absolute;
+    top: 4px;
+    bottom: 4px;
+    left: 4px;
+    width: calc((100% - 8px) / var(--toggle-count, 1));
+    transform: translateX(calc(var(--toggle-active, 0) * 100%));
+    background: #FFFFFF;
+    border-radius: 999px;
+    box-shadow: 0 1px 3px rgba(17,17,17,.12);
+    transition: transform .28s cubic-bezier(.4,0,.2,1);
+    z-index: 0;
+    pointer-events: none;
+  }
+  [data-toggle-btn] {
+    position: relative;
+    z-index: 1;
+    flex: 1 1 0;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    padding: 10px 16px;
+    font: inherit;
+    color: #6B6B6B;
+    transition: color .2s ease;
+    text-align: center;
+    white-space: nowrap;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    [data-toggle-init]::before { transition-duration: .01ms; }
+  }
+
+/* ---- shared/sheet.css ---- */
+/* Bottom Sheet v3 · Styles · Scrim wird in Webflow gebaut ([data-sheet-scrim], Klasse .is-open)
+   Quelle: von Yay geliefert am 19.09.2026, ersetzt v2 (performance) */
+
+  :root {
+    --sheet-in:      cubic-bezier(.32,.72,0,1);
+    --sheet-in-dur:  400ms;
+    --sheet-out:     cubic-bezier(.4,0,.86,.6);
+    --sheet-out-dur: 340ms;
+  }
+
+  [data-sheet][data-sheet-mode="sheet"] {
+    position: fixed; left: 0; right: 0; bottom: 0;
+    z-index: 9992;
+    max-height: 99dvh;
+    transform: translate3d(0,100%,0);
+    visibility: hidden;
+    touch-action: pan-y;
+    cursor: default;
+  }
+  [data-sheet][data-sheet-mode="sheet"][data-sheet-shown] { visibility: visible; }
+
+  [data-sheet][data-sheet-mode="inline"] {
+    position: static; max-height: none; transform: none; visibility: visible;
+  }
+  [data-sheet][data-sheet-mode="inline"] [data-sheet-handle] { display: none; }
+
+  [data-sheet-scroller] { overflow-y: auto; overscroll-behavior: contain; min-height: 0; }
+
+  [data-sheet-handle] { touch-action: none; cursor: grab; user-select: none; transition: opacity .2s ease; }
+  html[data-sheet-grabbing], html[data-sheet-grabbing] * {
+    user-select: none !important; -webkit-user-select: none !important; cursor: grabbing !important;
+  }
+  [data-sheet][data-sheet-dragging] [data-sheet-handle] { opacity: .55; }
+
+  [data-sheet-header] { position: sticky; top: 0; z-index: 2; }
+
+  html[data-sheet-locked], html[data-sheet-locked] body { overflow: hidden; }
+
+  @media (prefers-reduced-motion: reduce) {
+    [data-sheet] { transition-duration: .01ms !important; }
+  }
+
+/* ---- shared/sheet-nav.css ---- */
+/* SheetNav · Styles
+   Quelle (Webflow, Stand 2026-09-19): Embed .sheet-nav-js */
+
+  :root {
+    --sheetnav-dur: 340ms;
+    --sheetnav-ease: cubic-bezier(0.32, 0.72, 0, 1);
+  }
+
+  /* ============================================================
+     STAGE
+  ============================================================ */
+
+  [data-sheetnav] {
+    position: relative;
+    overflow: hidden;
+  }
+
+  [data-sheetnav-root],
+  [data-sheetnav-page] {
+    transition:
+      transform var(--sheetnav-dur) var(--sheetnav-ease),
+      opacity var(--sheetnav-dur) var(--sheetnav-ease);
+  }
+
+  /* ============================================================
+     PAGES
+  ============================================================ */
+
+  [data-sheetnav-page] {
+    position: absolute;
+    inset: 0;
+
+    overflow-y: auto;
+    overscroll-behavior: contain;
+
+    min-height: 0;
+
+    transform: translateX(100%);
+    visibility: hidden;
+
+    z-index: 1;
+  }
+
+  [data-sheetnav-page][data-sheetnav-active] {
+    transform: translateX(0);
+    visibility: visible;
+  }
+
+  [data-sheetnav][data-sheetnav-animating] [data-sheetnav-page][data-sheetnav-active] {
+    will-change: transform;
+  }
+
+  /* ============================================================
+     MESSEN
+  ============================================================ */
+
+  [data-sheetnav-page][data-sheetnav-measuring] {
+    position: static;
+    inset: auto;
+
+    visibility: visible;
+    opacity: 0;
+
+    transition: none;
+    transform: none;
+  }
+
+  /* ============================================================
+     HEIGHT OFF
+  ============================================================ */
+
+  [data-sheetnav][data-sheetnav-height='off']:has([data-sheetnav-page][data-sheetnav-active]) {
+    flex: 1 1 auto;
+    height: auto;
+    min-height: 0;
+  }
+
+  [data-sheet]:has([data-sheetnav-height='off'] [data-sheetnav-page][data-sheetnav-active]) {
+    height: 99dvh;
+  }
+
+  /* ============================================================
+     FIXED
+  ============================================================ */
+
+  [data-sheetnav-fixed] {
+    position: relative;
+    z-index: 50;
+  }
+
+  /* ============================================================
+     MORPH
+  ============================================================ */
+
+  [data-sheetnav-morph] {
+    position: relative;
+  }
+
+  [data-sheetnav-morph],
+  [data-sheetnav-pulse-inner] {
+    transform-origin: center center;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  [data-sheetnav-morph-idle],
+  [data-sheetnav-morph-active] {
+    transition:
+      opacity var(--sheetnav-morph-dur, 220ms) var(--sheetnav-ease),
+      transform var(--sheetnav-morph-dur, 220ms) var(--sheetnav-ease);
+  }
+
+  [data-sheetnav-morph-active] {
+    position: absolute;
+    inset: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Idle */
+
+  [data-sheetnav-morph] [data-sheetnav-morph-active] {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+
+    transform: scale(0.7) rotate(-25deg);
+  }
+
+  /* Active */
+
+  [data-sheetnav-morph][data-sheetnav-morph-on] [data-sheetnav-morph-active] {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+
+    transform: scale(1) rotate(0deg);
+  }
+
+  [data-sheetnav-morph][data-sheetnav-morph-on] [data-sheetnav-morph-idle] {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+
+    transform: scale(0.7) rotate(25deg);
+  }
+
+  /* ============================================================
+     ANIMATION LOCK
+  ============================================================ */
+
+  [data-sheetnav][data-sheetnav-animating] {
+    pointer-events: none;
+  }
+
+  /* ============================================================
+     REDUCED MOTION
+  ============================================================ */
+
+  @media (prefers-reduced-motion: reduce) {
+    [data-sheetnav-root],
+    [data-sheetnav-page] {
+      transition-duration: 0.01ms !important;
+    }
+  }
+
+/* ---- shared/base.css ---- */
+/* Basis-CSS
+   Quelle (Webflow, Stand 2026-09-19): Embeds .browser-font-smoothing, .scrollbar-hide-css, .textarea-resize-css (identisch) */
+
+  body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+[data-scrollbar="hide"] {
+  scrollbar-width: none;        /* Firefox */
+  -ms-overflow-style: none;     /* alte Edge/IE */
+}
+[data-scrollbar="hide"]::-webkit-scrollbar {
+  display: none;                /* Chrome, Safari, neue Edge */
+}
+
+html { scrollbar-width: none; -ms-overflow-style: none; }
+html::-webkit-scrollbar { display: none; }
+
+  .tavo-field-input.large {
+  resize: none;
+}
+
+  .textarea {
+  resize: none;
+}
+
+/* ---- reservieren/scroller.css ---- */
+/* Snap-Scroll · Styles
+   Quelle (Webflow, Stand 2026-09-19): Embed .scroller-js */
+
+  /* ==============================
+   SNAP SCROLL
+   Responsive aktivierbar
+   ============================== */
+
+  [data-scroll='snap'] {
+    --gap-mobile: 12px;
+    --gap-desktop: 24px;
+    --snap-pad-mobile: 24px;
+    --snap-pad-desktop: 24px;
+    --snap-type: mandatory;
+    --snap-align: start;
+    --snap-stop: always;
+  }
+
+  /* ==============================
+   MOBILE / TABLET < 992px
+   Standard: aktiv
+   ============================== */
+
+  @media (max-width: 991px) {
+    [data-scroll='snap']:not([data-scroll-mobile='false']) {
+      display: flex;
+      overflow-x: auto;
+      overflow-y: hidden;
+
+      gap: var(--gap-mobile);
+
+      scroll-snap-type: x var(--snap-type);
+      scroll-padding-left: var(--snap-pad-mobile);
+
+      -webkit-overflow-scrolling: touch;
+    }
+
+    [data-scroll='snap']:not([data-scroll-mobile='false']) > [data-scroll-item] {
+      flex: 0 0 auto;
+      scroll-snap-align: var(--snap-align);
+      scroll-snap-stop: var(--snap-stop);
+    }
+
+    /* Mobile explizit deaktiviert */
+    [data-scroll='snap'][data-scroll-mobile='false'] {
+      overflow: visible;
+      scroll-snap-type: none;
+    }
+  }
+
+  /* ==============================
+   DESKTOP >= 992px
+   Standard: aktiv
+   ============================== */
+
+  @media (min-width: 992px) {
+    [data-scroll='snap']:not([data-scroll-desktop='false']) {
+      display: flex;
+      overflow-x: auto;
+      overflow-y: hidden;
+
+      gap: var(--gap-desktop);
+
+      scroll-snap-type: x var(--snap-type);
+      scroll-padding-left: var(--snap-pad-desktop);
+    }
+
+    [data-scroll='snap']:not([data-scroll-desktop='false']) > [data-scroll-item] {
+      flex: 0 0 auto;
+      scroll-snap-align: var(--snap-align);
+      scroll-snap-stop: var(--snap-stop);
+    }
+
+    /* Desktop explizit deaktiviert */
+    [data-scroll='snap'][data-scroll-desktop='false'] {
+      overflow: visible;
+      scroll-snap-type: none;
+    }
+  }
+
+  /* Scrollbar */
+  [data-scroll='snap'][data-scrollbar='hide']::-webkit-scrollbar {
+    display: none;
+  }
+
+  [data-scroll='snap'][data-scrollbar='hide'] {
+    scrollbar-width: none;
+  }
+
+  /* Buttons */
+  [data-scroll-btn].disabled {
+    opacity: 0.35;
+    pointer-events: none;
+  }
+
+/* ---- shared/form-reset.css ---- */
+/* Form-Reset
+   Quelle (Webflow, Stand 2026-09-19): Reservieren Widget · Embed .mozkit-hide-css */
+
+  input,
+
+textarea,
+
+select,
+
+button {
+
+  outline: none;
+
+  box-shadow: none;
+
+  -webkit-tap-highlight-color: transparent;
+
+  -webkit-appearance: none;
+
+  appearance: none;
+
+}
+
+input:focus,
+
+textarea:focus,
+
+select:focus,
+
+button:focus {
+
+  outline: none;
+
+  box-shadow: none;
+
+}
+
+/* ---- reservieren/checkbox.css ---- */
+/* Checkbox checked-State
+   Quelle (Webflow, Stand 2026-09-19): Embed ohne Klasse (#8) */
+
+  .tavo-checkbox:checked {
+
+  background-color: #000;
+border-color: #0d0d0d;
+  box-shadow: inset 0 0 0 3px #fff;
+
+}
+
+/* ---- reservieren/loading-dots.css ---- */
+/* Lade-Punkte im Button
+   Quelle (Webflow, Stand 2026-09-19): Embed ohne Klasse (#10) */
+
+  @keyframes tavoBounce {
+    0%, 80%, 100% { transform: translateY(0); opacity: .5; }
+    40% { transform: translateY(-4px); opacity: 1; }
+  }
+  [data-tavo-loading-dots] > div:nth-child(1) { animation-delay: 0s; }
+  [data-tavo-loading-dots] > div:nth-child(2) { animation-delay: .15s; }
+  [data-tavo-loading-dots] > div:nth-child(3) { animation-delay: .3s; }
+  [data-tavo-step-next][data-tavo-busy] { pointer-events: none; }
+  [data-tavo-step-next][data-tavo-busy] > *:not([data-tavo-loading-dots]) { display: none; }
+  [data-tavo-step-next][data-tavo-busy] [data-tavo-loading-dots] { display: flex; }
+
+  .tavo-field-error {
+    color: #C41f45;
+    font-size: 12px;
+    line-height: 16px;
+    margin-top: 6px;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    [data-tavo-loading-dots] > div { animation-duration: .01ms; }
+  }
+
+  .tavo-success-active [data-sheetnav-back] {
+    display: none !important;
+  }
+
+  [data-tavo-area-id].is-disabled {
+    pointer-events: none;
+    opacity: .4;
+  }

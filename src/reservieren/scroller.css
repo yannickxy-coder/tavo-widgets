@@ -1,0 +1,94 @@
+/* Snap-Scroll · Styles
+   Quelle (Webflow, Stand 2026-09-19): Embed .scroller-js */
+
+  /* ==============================
+   SNAP SCROLL
+   Responsive aktivierbar
+   ============================== */
+
+  [data-scroll='snap'] {
+    --gap-mobile: 12px;
+    --gap-desktop: 24px;
+    --snap-pad-mobile: 24px;
+    --snap-pad-desktop: 24px;
+    --snap-type: mandatory;
+    --snap-align: start;
+    --snap-stop: always;
+  }
+
+  /* ==============================
+   MOBILE / TABLET < 992px
+   Standard: aktiv
+   ============================== */
+
+  @media (max-width: 991px) {
+    [data-scroll='snap']:not([data-scroll-mobile='false']) {
+      display: flex;
+      overflow-x: auto;
+      overflow-y: hidden;
+
+      gap: var(--gap-mobile);
+
+      scroll-snap-type: x var(--snap-type);
+      scroll-padding-left: var(--snap-pad-mobile);
+
+      -webkit-overflow-scrolling: touch;
+    }
+
+    [data-scroll='snap']:not([data-scroll-mobile='false']) > [data-scroll-item] {
+      flex: 0 0 auto;
+      scroll-snap-align: var(--snap-align);
+      scroll-snap-stop: var(--snap-stop);
+    }
+
+    /* Mobile explizit deaktiviert */
+    [data-scroll='snap'][data-scroll-mobile='false'] {
+      overflow: visible;
+      scroll-snap-type: none;
+    }
+  }
+
+  /* ==============================
+   DESKTOP >= 992px
+   Standard: aktiv
+   ============================== */
+
+  @media (min-width: 992px) {
+    [data-scroll='snap']:not([data-scroll-desktop='false']) {
+      display: flex;
+      overflow-x: auto;
+      overflow-y: hidden;
+
+      gap: var(--gap-desktop);
+
+      scroll-snap-type: x var(--snap-type);
+      scroll-padding-left: var(--snap-pad-desktop);
+    }
+
+    [data-scroll='snap']:not([data-scroll-desktop='false']) > [data-scroll-item] {
+      flex: 0 0 auto;
+      scroll-snap-align: var(--snap-align);
+      scroll-snap-stop: var(--snap-stop);
+    }
+
+    /* Desktop explizit deaktiviert */
+    [data-scroll='snap'][data-scroll-desktop='false'] {
+      overflow: visible;
+      scroll-snap-type: none;
+    }
+  }
+
+  /* Scrollbar */
+  [data-scroll='snap'][data-scrollbar='hide']::-webkit-scrollbar {
+    display: none;
+  }
+
+  [data-scroll='snap'][data-scrollbar='hide'] {
+    scrollbar-width: none;
+  }
+
+  /* Buttons */
+  [data-scroll-btn].disabled {
+    opacity: 0.35;
+    pointer-events: none;
+  }

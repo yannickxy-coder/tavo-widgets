@@ -1,0 +1,26 @@
+/* Basis-CSS
+   Quelle (Webflow, Stand 2026-09-19): Embeds .browser-font-smoothing, .scrollbar-hide-css, .textarea-resize-css (identisch) */
+
+  body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+[data-scrollbar="hide"] {
+  scrollbar-width: none;        /* Firefox */
+  -ms-overflow-style: none;     /* alte Edge/IE */
+}
+[data-scrollbar="hide"]::-webkit-scrollbar {
+  display: none;                /* Chrome, Safari, neue Edge */
+}
+
+html { scrollbar-width: none; -ms-overflow-style: none; }
+html::-webkit-scrollbar { display: none; }
+
+  .tavo-field-input.large {
+  resize: none;
+}
+
+  .textarea {
+  resize: none;
+}
